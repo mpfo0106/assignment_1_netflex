@@ -4,10 +4,14 @@ import api from "../../api/api";
 import getTMDBImgSrc from "../../utils/getTMDBImgSrc";
 import styles from "./MoviesDetailPage.module.scss";
 import { useAuth } from "../../contexts/auth.context";
+import { useProfile } from "../../contexts/ProfileContext/profile.context";
 function MoviesDetailPage() {
   const { isLoggedIn } = useAuth();
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
+  const { likedMovies, addLikedMovies } = useProfile();
+
+  const isLiked = likedMovies[movieId];
 
   useEffect(() => {
     api.movies.getMovie(movieId).then((movie) => setMovie(movie));
@@ -34,7 +38,15 @@ function MoviesDetailPage() {
             ))}
           </ul>
           <strong>{movie.vote_average}</strong>
-          {isLoggedIn && <button>좋아요</button>}
+
+          {isLoggedIn && (
+            <button
+              className={styles.button}
+              onClick={() => addLikedMovies(movieId)}
+            >
+              {isLiked ? "좋아요 취소" : " 좋아요"}
+            </button>
+          )}
         </div>
       </section>
 

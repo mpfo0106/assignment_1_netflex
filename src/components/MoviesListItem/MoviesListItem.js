@@ -9,7 +9,8 @@ function MoviesListItem({ movie }) {
   const { isLoggedIn } = useAuth();
   const { likedMovies, addLikedMovies } = useProfile();
 
-  const handleLike = () => {};
+  const isLiked = likedMovies[movie.id];
+
   return (
     <Link to={`/movies/${movie.id}`} className={styles.wrapper}>
       <img src={getTMDBImgSrc(movie.backdrop_path)} alt={movie.title} />
@@ -20,7 +21,7 @@ function MoviesListItem({ movie }) {
           className={styles.button}
           onClick={() => addLikedMovies(movie.id)}
         >
-          좋아요
+          {isLiked ? "좋아요 취소" : " 좋아요"}
         </button>
       )}
     </Link>
