@@ -4,8 +4,8 @@ import styles from "./SignInPage.module.scss";
 
 function SignInPage() {
   const { isLoggedIn, signIn } = useAuth();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("udemy");
+  const [password, setPassword] = useState("udemy");
 
   const handleClickSignIn = () => {
     if (!username || !password)
