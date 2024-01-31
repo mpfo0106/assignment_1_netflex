@@ -27,10 +27,12 @@ export function ProfileProvider({ children }) {
   const addLikedMovies = (movie) => {
     setLikedMovies((prevLikedMovies) => {
       const isAlreadyLiked = prevLikedMovies.some(
-        (likeMovie) => likedMovies.id === movie.id
+        (likedMovie) => likedMovie.id === movie.id
       );
       if (isAlreadyLiked) {
-        return prevLikedMovies.filter((likeMovie) => likeMovie.id !== movie.id); //like 안된것들만
+        return prevLikedMovies.filter(
+          (likedMovie) => likedMovie.id !== movie.id
+        ); //like 안된것들만. 좋아요한건 delete
       } else {
         return [...prevLikedMovies, movie];
       }
