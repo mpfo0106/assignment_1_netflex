@@ -3,8 +3,9 @@ import { useParams } from "react-router-dom";
 import api from "../../api/api";
 import getTMDBImgSrc from "../../utils/getTMDBImgSrc";
 import styles from "./MoviesDetailPage.module.scss";
-
+import { useAuth } from "../../contexts/auth.context";
 function MoviesDetailPage() {
+  const { isLoggedIn } = useAuth();
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
 
@@ -33,6 +34,7 @@ function MoviesDetailPage() {
             ))}
           </ul>
           <strong>{movie.vote_average}</strong>
+          {isLoggedIn && <button>좋아요</button>}
         </div>
       </section>
 
