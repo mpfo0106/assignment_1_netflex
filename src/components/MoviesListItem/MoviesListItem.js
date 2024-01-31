@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../contexts/auth.context";
 import getTMDBImgSrc from "../../utils/getTMDBImgSrc";
 import styles from "./MoviesListItem.module.scss";
+import { useProfile } from "../../contexts/ProfileContext/profile.context";
 
 function MoviesListItem({ movie }) {
   const { isLoggedIn } = useAuth();
+  const { likedMovies, setLikeMovies } = useProfile();
 
   return (
     <Link to={`/movies/${movie.id}`} className={styles.wrapper}>

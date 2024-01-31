@@ -2,7 +2,7 @@ const { createContext, useState, useContext } = require("react");
 
 const initialValue = {
   nickname: "",
-  likedMovies: false,
+  likedMovies: {}, //좋아요를 누른 영화 목록을 저장한다. 근데 중복되면 안됨으로 set 사용.
 };
 
 const ProfileContext = createContext(initialValue);
@@ -15,15 +15,23 @@ export function ProfileProvider({ children }) {
     setProfile(newNickName);
   };
 
-  const setLikeMovies = () => {
-    setLikedMovies(true);
+  const addLikedMovies = (movieId) => {
+    setLikedMovies((prevLikedMovies) => {
+      const updatedLikedMovies = { ...prevLikedMovies };
+      if (updatedLikedMovies[movieId]) {
+        delete updatedLikedMovies[movieId];
+      } else {
+        updatedLikedMovies[movieId] = true;
+      }
+      return updatedLikedMovies;
+    });
   };
 
   const value = {
     nickname,
     setNickname,
     likedMovies,
-    setLikeMovies,
+    addLikedMovies,
   };
 
   return (
