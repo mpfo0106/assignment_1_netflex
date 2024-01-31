@@ -7,14 +7,22 @@ import { useProfile } from "../../contexts/ProfileContext/profile.context";
 
 function MoviesListItem({ movie }) {
   const { isLoggedIn } = useAuth();
-  const { likedMovies, setLikeMovies } = useProfile();
+  const { likedMovies, addLikedMovies } = useProfile();
 
+  const handleLike = () => {};
   return (
     <Link to={`/movies/${movie.id}`} className={styles.wrapper}>
       <img src={getTMDBImgSrc(movie.backdrop_path)} alt={movie.title} />
       <h6>{movie.title}</h6>
 
-      {isLoggedIn && <button>좋아요</button>}
+      {isLoggedIn && (
+        <button
+          className={styles.button}
+          onClick={() => addLikedMovies(movie.id)}
+        >
+          좋아요
+        </button>
+      )}
     </Link>
   );
 }
