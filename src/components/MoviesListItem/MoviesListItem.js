@@ -9,7 +9,8 @@ function MoviesListItem({ movie }) {
   const { isLoggedIn } = useAuth();
   const { likedMovies, addLikedMovies } = useProfile();
 
-  const isLiked = likedMovies[movie.id];
+  // const isLiked = likedMovies[movie.id];
+  const isLiked = likedMovies.some((likedMovie) => likedMovie.id === movie.id);
 
   return (
     <Link to={`/movies/${movie.id}`} className={styles.wrapper}>
@@ -19,7 +20,16 @@ function MoviesListItem({ movie }) {
       {isLoggedIn && (
         <button
           className={styles.button}
-          onClick={() => addLikedMovies(movie.id)}
+          onClick={() => {
+            if (isLiked) {
+              alert("좋아요를 취소했습니다");
+              // removeLikedMovie(movie.id);
+            } else {
+              alert("좋아요를 눌렀습니다");
+              // addLikedMovie(movie.id);
+            }
+            addLikedMovies(movie);
+          }}
         >
           {isLiked ? "좋아요 취소" : " 좋아요"}
         </button>

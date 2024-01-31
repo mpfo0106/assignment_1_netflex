@@ -5,20 +5,21 @@ import getTMDBImgSrc from "../../utils/getTMDBImgSrc";
 import styles from "./MoviesDetailPage.module.scss";
 import { useAuth } from "../../contexts/auth.context";
 import { useProfile } from "../../contexts/ProfileContext/profile.context";
+
 function MoviesDetailPage() {
   const { isLoggedIn } = useAuth();
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const { likedMovies, addLikedMovies } = useProfile();
 
-  const isLiked = likedMovies[movieId];
+  // const isLiked = likedMovies[movieId];
 
   useEffect(() => {
     api.movies.getMovie(movieId).then((movie) => setMovie(movie));
   }, [movieId]);
 
   if (movie === null) return null;
-
+  const isLiked = likedMovies.some((likedMovie) => likedMovie.id === movie.id);
   return (
     <div className={styles.wrapper}>
       <section className={styles.mainInfo}>
@@ -42,7 +43,16 @@ function MoviesDetailPage() {
           {isLoggedIn && (
             <button
               className={styles.button}
-              onClick={() => addLikedMovies(movieId)}
+              onClick={() => {
+                if (isLiked) {
+                  alert("좋아요를 취소했습니다");
+                  // removeLikedMovie(movieId);
+                } else {
+                  alert("좋아요를 눌렀습니다");
+                  // addLikedMovie(movieId);
+                }
+                addLikedMovies(movie);
+              }}
             >
               {isLiked ? "좋아요 취소" : " 좋아요"}
             </button>

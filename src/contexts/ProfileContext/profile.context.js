@@ -1,8 +1,8 @@
 const { createContext, useState, useContext } = require("react");
-
+//객체로 likedMovies 넣기
 const initialValue = {
   nickname: "",
-  likedMovies: {}, //좋아요를 누른 영화 목록을 저장한다. 근데 중복되면 안됨으로 set 사용.
+  likedMovies: [], //좋아요를 누른 영화 목록을 저장한다. movieId 들 저장.
 };
 
 const ProfileContext = createContext(initialValue);
@@ -15,23 +15,58 @@ export function ProfileProvider({ children }) {
     setProfile(newNickName);
   };
 
-  const addLikedMovies = (movieId) => {
+  // const addLikedMovies = (movieId) => {
+  //   setLikedMovies((prevLikedMovies) => {
+  //     if (prevLikedMovies.includes(movieId)) {
+  //       return prevLikedMovies.filter((id) => id !== movieId);
+  //     } else {
+  //       return [...prevLikedMovies, movieId];
+  //     }
+  //   });
+  // };
+  const addLikedMovies = (movie) => {
     setLikedMovies((prevLikedMovies) => {
-      const updatedLikedMovies = { ...prevLikedMovies };
-      if (updatedLikedMovies[movieId]) {
-        delete updatedLikedMovies[movieId];
+      const isAlreadyLiked = prevLikedMovies.some(
+        (likeMovie) => likedMovies.id === movie.id
+      );
+      if (isAlreadyLiked) {
+        return prevLikedMovies.filter((likeMovie) => likeMovie.id !== movie.id); //like 안된것들만
       } else {
-        updatedLikedMovies[movieId] = true;
+        return [...prevLikedMovies, movie];
       }
-      return updatedLikedMovies;
     });
   };
+  // const addLikedMovies = (movieId) => {
+  //   setLikedMovies((prevLikedMovies) => {
+  //     const updatedLikedMovies = { ...prevLikedMovies };
+  //     if (updatedLikedMovies[movieId]) {
+  //       delete updatedLikedMovies[movieId];
+  //     } else {
+  //       updatedLikedMovies[movieId] = true;
+  //     }
+  //     return updatedLikedMovies;
+  //   });
+  // };
+
+  // const addLikedMovie = (movieId) => {
+  //   setLikedMovies((prevLikedMovies) => {
+  //     return [...prevLikedMovies, movieId];
+  //   });
+  // };
+
+  // const removeLikedMovie = (movieId) => {
+  //   setLikedMovies((prevLikedMovies) => {
+  //     return prevLikedMovies.filter((id) => id !== movieId);
+  //   });
+  // };
 
   const value = {
     nickname,
     setNickname,
     likedMovies,
     addLikedMovies,
+    // addLikedMovie,
+    // removeLikedMovie,
   };
 
   return (
